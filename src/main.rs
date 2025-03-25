@@ -47,6 +47,8 @@ use futures_util::StreamExt;
 
 use kube::runtime::controller::Error as KubeContError;
 
+use pretty_env_logger;
+
 /// ContextData just wraps `kube::client::Client` so it can be added implementations
 /// Context injected with each `reconcile` and `on_error` method invocation.
 struct ContextData {
@@ -69,6 +71,8 @@ pub enum ExampleError {
 
 #[tokio::main]
 async fn main() -> Result <(), ExampleError> {
+    pretty_env_logger::init_timed();
+    info!("Starting operator");
     // Load the client
     let kc: Client = Client::try_default()
         .await
